@@ -2,10 +2,11 @@
 
 import os
 import sys
+import subprocess
 
 rfiles = []
 
-__version__ = 1.0
+__version__ = 1.1
 __author__ = "lvlrk"
 
 usage = f"""{sys.argv[0]} [-d] [DIRECTORY]
@@ -47,85 +48,83 @@ for root, dirs, files in os.walk(directory):
         cdict = {"filepath": filepath, "path": "/".join(path), "file": file, "type": "data", "magic": magic, "smagic": smagic}
 
         if smagic == b"VCRA":
-            cdict["type"] = "namco museum remix: arcv archive"
+            cdict["type"] = "Namco Museum Remix Arcv archive"
         elif smagic == b"SSZL":
-            cdict["type"] = "namco museum remix: sszl-compressed file"
+            cdict["type"] = "Namco Museum Remix Lzss-compressed file"
         elif magic == b"UKTP162N":
-            cdict["type"] = "namco museum remix: ptk effect file"
+            cdict["type"] = "Namco Museum Remix PTK binary effect file"
         elif magic == b"ANP 150 ":
-            cdict["type"] = "namco museum remix: anp layout file"
+            cdict["type"] = "Namco Museum Remix ANP binary UI-layout file"
         elif smagic == b"bres":
-            cdict["type"] = "wii binary resource archive"
+            cdict["type"] = "Wii binary resource archive"
         elif smagic == b"U\xaa8-":
-            cdict["type"] = "u8 archive"
+            cdict["type"] = "U8 archive"
         elif file.endswith(".csv") or "CSV" in filepath:
-            cdict["type"] = "csv spreadsheet"
+            cdict["type"] = "CSV spreadsheet"
         elif smagic == b"RSTM":
-            cdict["type"] = "wii binary audio stream file"
+            cdict["type"] = "Wii binary audio stream file"
         elif smagic == b"RFNT":
-            cdict["type"] = "wii binary font file"
+            cdict["type"] = "Wii binary font file"
         elif smagic == b"RSAR":
-            cdict["type"] = "wii binary sound bank file"
+            cdict["type"] = "Wii binary sound bank file"
         elif magic == b"MAPOOOBJ":
-            cdict["type"] = "namco museum remix: map data (OBJ)"
+            cdict["type"] = "Namco Museum Remix Map object data"
         elif magic == b"MAPOOMAP":
-            cdict["type"] = "namco museum remix: map data (MAP)"
+            cdict["type"] = "Namco Museum Remix Map data"
         elif magic == b"MAPOOPNL":
-            cdict["type"] = "namco museum remix: map data (PNL)"
+            cdict["type"] = "Namco Museum Remix Binary map panel data"
         elif file.endswith(".emy"):
-            cdict["type"] = "namco museum remix: galaga remix: enemy file"
+            cdict["type"] = "Namco Museum Remix Binary enemy pattern data"
         elif file.endswith(".scn"):
-            cdict["type"] = "namco museum remix: galaga remix: scene file"
+            cdict["type"] = "Namco Museum Remix Binary Scene data"
         elif "BIN" in file or file.endswith("SET_DAT"):
-            cdict["type"] = "namco museum remix: pac n roll remix: binary setting file"
+            cdict["type"] = "Namco Museum Remix Binary level-setting data"
         elif file.endswith(".cam"):
-            cdict["type"] = "namco museum remix: pac n roll remix: binary camera file"
+            cdict["type"] = "Namco Museum Remix Binary camera data"
         elif smagic == b"THP\x00":
-            cdict["type"] = "wii binary video file"
+            cdict["type"] = "Wii binary video file"
         elif "TEXT" in file or file.endswith(".txt"):
-            cdict["type"] = "text file"
+            cdict["type"] = "ASCII Text"
         elif file.endswith(".sel"):
-            cdict["type"] = "wii symbol table"
+            cdict["type"] = "Wii binary symbol table"
         elif file.endswith(".rso"):
-            cdict["type"] = "wii shared object"
+            cdict["type"] = "Wii shared object"
         elif file.endswith(".rel"):
-            cdict["type"] = "wii relocatable binary"
-        elif file.endswith(".bin"):
-            cdict["type"] = "binary file"
+            cdict["type"] = "Wii relocatable binary"
         elif "RESIDENT" in file or file == "env0.dat":
-            cdict["type"] = "namco museum remix: resident data file"
+            cdict["type"] = "Namco Museum Remix Shared resource file"
         elif file.endswith(".tpl"):
-            cdict["type"] = "wii image file"
+            cdict["type"] = "Wii TPL image data"
         elif file.endswith(".bnr"):
-            cdict["type"] = "wii channel banner animation"
-        elif file in sys.argv[0]:
-            cdict["type"] = "this program"
+            cdict["type"] = "Wii channel banner animation"
         elif smagic == b"GFAC":
-            cdict["type"] = "kirbys epic yarn: gfa archive"
+            cdict["type"] = "Kirby's Epic Yarn GFA archive"
         elif smagic == b"BGDT":
-            cdict["type"] = "kirbys epic yarn: data archive"
+            cdict["type"] = "Kirby's Epic Yarn Data archive"
         elif smagic == b"BGST":
-            cdict["type"] = "kirbys epic yarn: st archive"
+            cdict["type"] = "Kirby's Epic Yarn ST archive"
         elif smagic == b"RFNA":
-            cdict["type"] = "wii binary font archive"
+            cdict["type"] = "Wii binary font archive"
         elif smagic == b"REFF":
-            cdict["type"] = "wii binary effect file"
+            cdict["type"] = "Wii binary effect file"
         elif smagic == b"REFT":
-            cdict["type"] = "wii binary effect resource file"
+            cdict["type"] = "Wii binary effect resource archive"
         elif smagic == b"Yaz0":
-            cdict["type"] = "wii Yaz0-compressed u8 archive"
+            cdict["type"] = "Wii Yaz0-compressed u8 archive"
         elif smagic == b"STRM":
-            cdict["type"] = "super mario galaxy: binary audio stream file"
+            cdict["type"] = "Super Mario Galaxy Binary audio stream file"
         elif smagic == b"RARC":
-            cdict["type"] = "wii rarc archive"
+            cdict["type"] = "Wii RARC archive"
         elif file.endswith(".aw"):
-            cdict["type"] = "super mario galaxy: binary sound bank file"
+            cdict["type"] = "Super Mario Galaxy Binary sound bank file"
         elif smagic == b"RKGD":
-            cdict["type"] = "mario kart wii: binary time trial ghost file"
-        elif smagic == b"RKWD":
-            cdict["type"] = "mario kart wii: WadlistR.dat"
+            cdict["type"] = "Mario Kart Wii Binary time trial ghost file"
         elif smagic == b"ARC\x00":
-            cdict["type"] = "super smash bros brawl: PAC archive"
+            cdict["type"] = "Super Smash Bros. Brawl PAC archive"
+        else:
+            p = subprocess.run(["file", filepath], capture_output=True, text=True)
+            if p.stdout != f'{filepath}: data':
+                cdict["type"] = p.stdout.strip("\n").split(": ")[1]
 
         rfiles.append(cdict)
 
@@ -133,5 +132,6 @@ for rfile in rfiles:
     if different:
         if rfile["type"] == "data":
             print(rfile)
+            #print(rfile)
     else:
         print(f'{rfile["filepath"]}: {rfile["type"]}')
