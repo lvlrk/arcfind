@@ -6,7 +6,7 @@ import subprocess
 
 rfiles = []
 
-__version__ = 1.1
+__version__ = "1.1.1"
 __author__ = "lvlrk"
 
 usage = f"""{sys.argv[0]} [-d] [DIRECTORY]
@@ -50,7 +50,7 @@ for root, dirs, files in os.walk(directory):
         if smagic == b"VCRA":
             cdict["type"] = "Namco Museum Remix Arcv archive"
         elif smagic == b"SSZL":
-            cdict["type"] = "Namco Museum Remix Lzss-compressed file"
+            cdict["type"] = "Namco Museum Remix lzss compressed file"
         elif magic == b"UKTP162N":
             cdict["type"] = "Namco Museum Remix PTK binary effect file"
         elif magic == b"ANP 150 ":
@@ -110,7 +110,7 @@ for root, dirs, files in os.walk(directory):
         elif smagic == b"REFT":
             cdict["type"] = "Wii binary effect resource archive"
         elif smagic == b"Yaz0":
-            cdict["type"] = "Wii Yaz0-compressed u8 archive"
+            cdict["type"] = "Wii Yaz0 compressed U8 archive"
         elif smagic == b"STRM":
             cdict["type"] = "Super Mario Galaxy Binary audio stream file"
         elif smagic == b"RARC":
