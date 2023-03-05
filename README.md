@@ -1,4 +1,4 @@
-# arcfind v1.1.1
+# arcfind v1.2
 A tool to identify game formats
 by lvlrk 2023
 
